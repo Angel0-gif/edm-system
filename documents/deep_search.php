@@ -4,7 +4,7 @@ include("../includes/functions.php");
 include("../config/db.php");
 
 if (!isset($_SESSION['user'])) {
-    header("Location: /edm-system/auth/login.php");
+    header("Location: " . BASE_URL . "/index.php");
     exit();
 }
 

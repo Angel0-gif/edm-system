@@ -1,8 +1,9 @@
 <?php
 session_start();
+require_once("../config/app.php");
 
 if (isset($_SESSION['user'])) {
-    header("Location: /edm-system/index.php");
+    header("Location: " . BASE_URL . "/dashboard/index.php");
     exit();
 }
 
@@ -26,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error = "Your account has been disabled.";
         } elseif (password_verify($password, $user["password"])) {
             $_SESSION["user"] = $user;
-            header("Location: ../dashboard/index.php");
+            header("Location: " . BASE_URL . "/dashboard/index.php");
             exit();
         } else {
             $error = "Invalid password";
@@ -70,7 +71,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             overflow: hidden;
         }
 
-        /* LEFT SIDE - Branding */
         .left {
             flex: 1.2;
             display: flex;
@@ -99,7 +99,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             line-height: 1.6;
         }
 
-        /* RIGHT SIDE - Form Section */
         .right {
             flex: 1;
             display: flex;
@@ -217,7 +216,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             font-weight: 600;
         }
 
-        /* ── MOBILE ── */
         @media (max-width: 768px) {
             body {
                 flex-direction: column;
@@ -230,9 +228,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 background-attachment: scroll;
             }
 
-            .left {
-                display: none; /* hide branding panel on mobile */
-            }
+            .left { display: none; }
 
             .right {
                 flex: none;
@@ -248,13 +244,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 max-width: 100%;
             }
 
-            .login-box h2 {
-                font-size: 26px;
-            }
+            .login-box h2 { font-size: 26px; }
 
             .input-group input {
                 padding: 13px 16px;
-                font-size: 16px; /* prevent iOS zoom */
+                font-size: 16px;
             }
 
             button[type="submit"] {
@@ -264,9 +258,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         @media (max-width: 400px) {
-            .login-box {
-                padding: 28px 18px;
-            }
+            .login-box { padding: 28px 18px; }
         }
     </style>
 </head>
@@ -284,7 +276,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h2>Welcome Back</h2>
         <p class="subtitle">Please enter your details to sign in</p>
 
-        <?php if (isset($error) && $error) echo "<div class='error'>$error</div>"; ?>
+        <?php if (isset($error) && $error) echo "<div class='error'>" . htmlspecialchars($error) . "</div>"; ?>
 
         <form method="POST">
             <div class="input-group">
@@ -301,7 +293,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </form>
 
         <div class="link">
-            Don't have an account? <a href="register.php">Sign up</a>
+            Don't have an account? <a href="<?php echo BASE_URL; ?>/auth/register.php">Sign up</a>
         </div>
     </div>
 </div>

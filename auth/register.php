@@ -1,9 +1,10 @@
 <?php
 session_start();
+require_once("../config/app.php");
 include("../config/db.php");
 
 if (isset($_SESSION['user'])) {
-    header("Location: /edm-system/index.php");
+    header("Location: " . BASE_URL . "/dashboard/index.php");
     exit();
 }
 
@@ -27,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 VALUES ('$name', '$email', '$hashedPassword', 'viewer', 1)";
 
         if ($conn->query($sql)) {
-            header("Location: login.php");
+            header("Location: " . BASE_URL . "/auth/login.php");
             exit();
         } else {
             $error = "Something went wrong";
@@ -69,7 +70,6 @@ body {
     background-attachment: fixed;
 }
 
-/* LEFT SIDE */
 .left {
     flex: 1.2;
     display: flex;
@@ -87,7 +87,6 @@ body {
     color: rgba(255,255,255,0.9);
 }
 
-/* RIGHT SIDE */
 .right {
     flex: 1;
     display: flex;
@@ -185,7 +184,6 @@ button:hover {
     font-weight: 600;
 }
 
-/* ── MOBILE ── */
 @media (max-width: 768px) {
     body {
         flex-direction: column;
@@ -198,9 +196,7 @@ button:hover {
         background-attachment: scroll;
     }
 
-    .left {
-        display: none;
-    }
+    .left { display: none; }
 
     .right {
         flex: none;
@@ -216,12 +212,10 @@ button:hover {
         max-width: 100%;
     }
 
-    .login-box h2 {
-        font-size: 24px;
-    }
+    .login-box h2 { font-size: 24px; }
 
     .input-group input {
-        font-size: 16px; /* prevent iOS zoom */
+        font-size: 16px;
         padding: 13px;
     }
 
@@ -232,9 +226,7 @@ button:hover {
 }
 
 @media (max-width: 400px) {
-    .login-box {
-        padding: 28px 18px;
-    }
+    .login-box { padding: 28px 18px; }
 }
 </style>
 </head>
@@ -253,8 +245,8 @@ button:hover {
         <h2>Create Account</h2>
         <p class="subtitle">Sign up to get started</p>
 
-        <?php if ($error) echo "<div class='error'>$error</div>"; ?>
-        <?php if ($success) echo "<div class='success'>$success</div>"; ?>
+        <?php if ($error) echo "<div class='error'>" . htmlspecialchars($error) . "</div>"; ?>
+        <?php if ($success) echo "<div class='success'>" . htmlspecialchars($success) . "</div>"; ?>
 
         <form method="POST">
             <div class="input-group">
@@ -277,7 +269,7 @@ button:hover {
         </form>
 
         <div class="link">
-            Already have an account? <a href="login.php">Login</a>
+            Already have an account? <a href="<?php echo BASE_URL; ?>/auth/login.php">Login</a>
         </div>
     </div>
 </div>
